@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neusiedler Family Escape • 2026</title>
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--bg:#f3f0e9;--paper:#fff;--ink:#17211e;--muted:#69736e;--green:#244d43;--green2:#376b5d;--sand:#e9dfcc;--orange:#c87942;--line:#e4dfd5;--shadow:0 18px 50px rgba(26,34,30,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:inherit}.hero{min-height:650px;color:#fff;position:relative;overflow:hidden;background:linear-gradient(125deg,rgba(20,55,47,.96),rgba(49,91,76,.76)),url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2200&q=85") center/cover}
+.hero:after{content:"";position:absolute;inset:auto 0 0;height:180px;background:linear-gradient(transparent,var(--bg))}
+.wrap{max-width:1120px;margin:auto;position:relative;z-index:1}.hero .wrap{padding:70px 22px 120px}.eyebrow{letter-spacing:.16em;text-transform:uppercase;font-size:11px;opacity:.78}.hero h1{font-size:clamp(48px,9vw,94px);line-height:.88;letter-spacing:-.05em;margin:18px 0;max-width:850px}.hero p{font-size:19px;max-width:720px;opacity:.92}.pills{display:flex;gap:9px;flex-wrap:wrap;margin:28px 0}.pill{padding:8px 12px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.1);border-radius:999px;font-size:13px}.count{display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--green);padding:12px 16px;border-radius:16px;font-weight:800;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+nav{position:sticky;top:0;z-index:20;background:rgba(243,240,233,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}nav .wrap{display:flex;gap:8px;padding:10px 22px;overflow:auto}nav a{white-space:nowrap;text-decoration:none;padding:8px 12px;border:1px solid var(--line);background:#fff;border-radius:999px;font-size:13px}
+main{padding:34px 22px 80px}.grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr);gap:24px}.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:25px;box-shadow:var(--shadow);margin-bottom:24px}.card h2{font-size:27px;letter-spacing:-.02em;margin:0 0 4px}.sub{color:var(--muted);margin-bottom:18px}.date{display:inline-block;background:var(--sand);color:#61432c;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.timeline{margin-top:8px}.row{display:grid;grid-template-columns:82px 1fr;gap:17px;padding:18px 0;border-top:1px solid var(--line)}.row:first-child{border-top:0}.time{font-weight:900;color:var(--green2);font-size:14px}.row h3{margin:0 0 3px;font-size:17px}.row p{margin:0;color:var(--muted)}.row .links{margin-top:9px;display:flex;gap:8px;flex-wrap:wrap}.btn{display:inline-block;text-decoration:none;padding:9px 12px;background:var(--green);color:#fff;border-radius:11px;font-weight:800;font-size:13px}.btn.light{background:#eee9df;color:#4d443a}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}.mini{padding:16px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:18px}.mini b{font-size:21px;display:block}
+.map{height:420px;border-radius:18px;overflow:hidden}.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.tag{font-size:12px;padding:6px 9px;border-radius:999px;background:#f0ece5;color:#51473e}
+.alert{padding:15px 17px;border-left:4px solid var(--orange);background:#fbf3ea;border-radius:12px;margin-top:17px}.good{padding:15px 17px;border-left:4px solid var(--green2);background:#edf5f1;border-radius:12px;margin-top:17px}
+.check{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.check input{width:18px;height:18px;margin-top:3px}.source{font-size:12px;color:var(--muted);margin-top:12px}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kpi div{background:#f6f3ed;border-radius:15px;padding:14px}.kpi b{display:block;font-size:20px}
+footer{text-align:center;color:var(--muted);padding:30px 22px 55px;font-size:12px}
+@media(max-width:820px){.grid{grid-template-columns:1fr}.hero{min-height:590px}.hero-grid{grid-template-columns:1fr 1fr}.map{height:330px}}
+@media(max-width:560px){.hero-grid{grid-template-columns:1fr}.row{grid-template-columns:65px 1fr}.hero h1{font-size:56px}}
+
+.appbar{background:#173b34;color:#fff;font-size:11px;letter-spacing:.12em;font-weight:800}.appbar .wrap{padding:8px 22px;display:flex;justify-content:space-between}
+.bottomnav{display:none}
+.dayhero{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;background:linear-gradient(135deg,#254f44,#416f61);color:#fff;border-radius:24px;padding:24px;margin-bottom:22px}.dayhero .big{font-size:34px;font-weight:900;line-height:1}.dayhero .small{opacity:.8;font-size:13px}.score{font-size:13px;text-align:right}.score b{display:block;font-size:25px}
+.photo-strip{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin:16px 0}.photo-strip img{width:100%;height:150px;object-fit:cover;border-radius:15px}.photo-strip img:first-child{height:310px;grid-row:span 2}
+@media(max-width:560px){.photo-strip{grid-template-columns:1fr 1fr}.photo-strip img:first-child{grid-column:span 2;height:190px}.photo-strip img{height:120px}.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid var(--line);justify-content:space-around;padding:9px 5px}.bottomnav a{text-decoration:none;font-size:11px;font-weight:800}.appbar .wrap{padding-bottom:7px}}
+</style>
+</head>
+<body>
+<header class="hero">
+<div class="wrap">
+<div class="eyebrow">14.–16. AUGUST 2026 · BURGENLAND · AUSTRIA</div>
+<h1>Neusiedler<br>Family Escape</h1>
+<p>Tri dni pri Neziderskom jazere. Škoda Superb, 2 dospelí + 1 dieťa, dobré jedlo, voda, víno a jeden poriadny festival.</p>
+<div class="pills"><span class="pill">🚗 Horenická Hôrka → Halbturn</span><span class="pill">🏨 2 ubytovania</span><span class="pill">🌊 Neusiedler See</span><span class="pill">🍷 Gols</span></div>
+<div id="count" class="count">⏳ Odchod dnes o 16:00</div>
+<div class="hero-grid">
+<div class="mini"><b>14. 8.</b>Halbturn · zámok · tradičná večera</div>
+<div class="mini"><b>15. 8.</b>PODOplay · jazero · Gols Volksfest</div>
+</div>
+</div>
+</header>
+
+<div class="appbar"><div class="wrap"><span>NEUSIEDLER ESCAPE</span><span id="weatherHint">☀️ Letný víkend</span></div></div>
+<nav><div class="wrap">
+<a href="#map">🗺️ Mapa</a><a href="#today">Dnes</a><a href="#sat">Sobota</a><a href="#sun">Nedeľa</a><a href="#food">Jedlo</a><a href="#wine">Víno</a><a href="#check">Checklist</a>
+</div></nav>
+<div class="bottomnav"><a href="#today">Dnes</a><a href="#sat">Sobota</a><a href="#map">Mapa</a><a href="#sun">Nedeľa</a></div>
+
+<main class="wrap">
+<section class="card" id="map">
+<h2>🗺️ Celý trip na jednej mape</h2>
+<div class="sub">Horenická Hôrka → Halbturn → Podersdorf → Gols → Frauenkirchen</div>
+<div id="leaflet" class="map"></div>
+<div class="legend"><span class="tag">📍 Ubytovanie</span><span class="tag">🌊 Jazero</span><span class="tag">🎡 Festival</span><span class="tag">🍷 Víno</span></div>
+</section>
+
+
+<div class="photo-strip">
+<img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85" alt="Neusiedler See">
+<img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=800&q=85" alt="Wine">
+<img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=85" alt="Lake">
+</div>
+<div class="grid">
+<section>
+<div class="card" id="today">
+<span class="date">PIATOK · 14. 8.</span>
+<h2>Príchod do Halbturnu</h2>
+<div class="sub">Dnes by som už program neprepĺňal. Po ceste vás čaká zámok, park a veľmi dobrá tradičná večera.</div>
+<div class="dayhero"><div><div class="small">HEUTE</div><div class="big">Arrival mode</div><div class="small">Zámok · večera · pokojný večer</div></div><div class="score">⭐<b>8/10</b>relax</div></div><div class="timeline">
+<div class="row"><div class="time">16:00</div><div><h3>🚗 Odchod z Horenickej Hôrky</h3><p>Škoda Superb. Cieľ: Hotel Genuss Am Hof, Halbturn. Plánovaný príjazd okolo 18:30.</p><div class="links"><a class="btn" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Horenicka+Horka&destination=Erzherzog-Friedrich-Strasse+40,+7131+Halbturn,+Austria">Navigovať</a></div></div></div>
+<div class="row"><div class="time">18:30</div><div><h3>🏨 Check-in</h3><p>Hotel Genuss Am Hof. Krátky oddych a potom pešo do areálu Schloss Halbturn.</p></div></div>
+<div class="row"><div class="time">19:00</div><div><h3>🏰 Večerný okruh Schloss Halbturn</h3><p>Park je otvorený celoročne; interiér výstavy je v sezóne otvorený do 17:00, takže večer rátajte hlavne s parkom a exteriérom zámku.</p><div class="links"><a class="btn light" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=Hotel+Genuss+Am+Hof,+Halbturn&destination=Schloss+Halbturn">Hotel → Schloss</a></div></div></div>
+<div class="row"><div class="time">20:00</div><div><h3>🍽️ Tradičná večera: Knappenstöckl</h3><p>Moja voľba večera. Reštaurácia priamo na Schloss Halbturn varí tradičné pannonické a regionálne jedlá; v piatok funguje do 21:00.</p><div class="links"><a class="btn" target="_blank" href="https://www.restaurant-wieser.at/">Reštaurácia</a><a class="btn light" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Restaurant+Knappenstoeckl,+Halbturn">Mapa</a></div></div></div>
+<div class="row"><div class="time">21:30</div><div><h3>🌙 Pokojný návrat do hotela</h3><p>Žiadny ďalší presun autom. Ak budete mať chuť, krátka prechádzka cez centrum obce.</p></div></div>
+</div>
+<div class="good"><b>Veľké plus:</b> Knappenstöckl je otvorené aj cez sviatky a v historickom areáli zámku. Na piatkový večer je to výrazne lepší zážitok než večera.</div>
+</div>
+
+<div class="card" id="sat">
+<span class="date">SOBOTA · 15. 8. · SVIATOK</span>
+<h2>🔥 Deň pri jazere + 57. Golser Volksfest</h2>
+<div class="sub">Mariä Himmelfahrt je v Rakúsku sviatok, preto som program postavil na miestach a podujatiach, ktoré majú potvrdený sviatočný/ víkendový režim.</div>
+<div class="dayhero"><div><div class="small">HLAVNÝ DEŇ</div><div class="big">Lake & Festival</div><div class="small">PODOplay · loď · kúpanie · Gols</div></div><div class="score">🔥<b>10/10</b>highlight</div></div><div class="timeline">
+<div class="row"><div class="time">08:00</div><div><h3>☕ Raňajky + check-out</h3><p>Odchod z Halbturnu smer Podersdorf. Veci rovno do auta.</p></div></div>
+<div class="row"><div class="time">09:00</div><div><h3>🛝 PODOplay</h3><p>Rodinný štart dňa – nech sa dieťa vyhrá ešte pred horúčavou.</p><div class="links"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Familien-Erlebniswelt+PODOplay+Podersdorf">Mapa PODOplay</a></div></div></div>
+<div class="row"><div class="time">11:15</div><div><h3>⛵ Famózny bonus: plavba po Neziderskom jazere</h3><p>V letnej sezóne má Schifffahrt Knoll z Podersdorfu linkovú plavbu o 11:15. Toto by som dal namiesto obyčajného „len kúpanie“ – jazero si užijete z vody a potom sa vrátite na pláž.</p><div class="links"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Schifffahrt+Knoll+Podersdorf">Mólo</a></div></div></div>
+<div class="row"><div class="time">12:45</div><div><h3>🍴 Obed pri jazere</h3><p>Po plavbe jedlo bez ďalšieho presunu.</p></div></div>
+<div class="row"><div class="time">13:30</div><div><h3>🏖️ Kúpanie + pláž</h3><p>Približne 90 minút na kúpanie a oddych. Pri pláži zároveň prebieha Trh umeleckých remesiel, 10:00–19:00.</p></div></div>
+<div class="row"><div class="time">15:15</div><div><h3>🚗 Podersdorf → Gols</h3><p>Krátky presun na festival. Nechajte si rezervu na parkovanie a sviatočnú premávku.</p></div></div>
+<div class="row"><div class="time">16:00</div><div><h3>🎡 57. Golser Volksfest</h3><p>Hlavný highlight soboty. Festival trvá 7.–16. 8. a 15. 8. sa oficiálne začína o 15:00. Na mieste je hudba, regionálna gastronómia, víno a zábavný park.</p><div class="links"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Volksfestgel%C3%A4nde+Volksfestgasse+1,+7122+Gols">Navigovať</a><a class="btn light" target="_blank" href="https://www.gols.at/echte-gastfreundschaft/veranstaltungen-aktivitaeten/golser-volksfest/">Program festivalu</a></div></div></div>
+<div class="row"><div class="time">16:30+</div><div><h3>🍷 Víno už priamo na Volksfeste</h3><p>Festival má vlastnú Weinkost s vínami z Golsu a regiónu. Takto splníme víno bez toho, aby ste museli robiť ďalší presun a riskovať, že sviatok zavrie malé vinárstvo.</p></div></div>
+<div class="row"><div class="time">19:30+</div><div><h3>🏠 Frauenkirchen</h3><p>Po festivale presun na Lenaugasse 20, check-in a oddych.</p></div></div>
+</div>
+<div class="alert"><b>⚠️ Sviatok:</b> 15. august je Mariä Himmelfahrt. Preto som zámerne vynechal program závislý od bežnej pracovnej soboty a presunul degustáciu vína na festival, kde je súčasťou programu.</div>
+</div>
+
+<div class="card" id="sun">
+<span class="date">NEDEĽA · 16. 8.</span>
+<h2>🌅 Pokojné finále</h2>
+<div class="sub">Nedeľu by som už nechal voľnejšiu, aby ste nemuseli odchádzať z výletu v strese.</div>
+<div class="timeline">
+<div class="row"><div class="time">08:30</div><div><h3>🥐 Raňajky + check-out</h3><p>Apartmán, Lenaugasse 20.</p></div></div>
+<div class="row"><div class="time">09:30</div><div><h3>🍷 Voliteľné: Weinkulturhaus Gols</h3><p>Ak chcete kúpiť víno domov alebo si dať krátku degustáciu, vinotéka má podľa aktuálnych údajov v nedeľu 10:00–13:00. Je to lepšia voľba než naháňať ďalšie veľké vinárstvo.</p><div class="links"><a class="btn light" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Weinkulturhaus+Gols">Mapa</a></div></div></div>
+<div class="row"><div class="time">11:30</div><div><h3>⛪ Frauenkirchen</h3><p>Krátka prechádzka centrom a bazilikou, potom obed.</p></div></div>
+<div class="row"><div class="time">14:00</div><div><h3>🌊 Posledná zastávka: Podersdorf</h3><p>Ak máte chuť na posledný výhľad na jazero, maják a krátku prechádzku po móle. Trh remesiel je v nedeľu 10:00–18:00.</p></div></div>
+<div class="row"><div class="time">18:00</div><div><h3>🚗 Návrat domov</h3><p>Čas je zámerne flexibilný podľa nálady a dieťaťa.</p></div></div>
+</div>
+</div>
+</section>
+
+<aside>
+<div class="card" id="food">
+<h2>🍽️ Jedlo</h2>
+<p><b>Dnes večer:</b> <span style="color:var(--green2);font-weight:800">Hotel & Restaurant Knappenstöckl</span></p>
+<p class="sub">Tradičná pannonická a regionálna kuchyňa, lokálne mäso, ryby z Neziderského jazera, zverina. Otvorené aj počas sviatkov.</p>
+<div class="links"><a class="btn" target="_blank" href="https://www.restaurant-wieser.at/">Web</a></div>
+<hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+<p><b>Sobota:</b> jedlo priamo na Golser Volksfest – regionálna gastronómia + víno.</p>
+</div>
+
+<div class="card" id="wine">
+<h2>🍷 Víno</h2>
+<div class="kpi"><div><b>15. 8.</b>Weinkost na Volksfeste</div><div><b>16. 8.</b>Weinkulturhaus Gols</div></div>
+<p class="source">WeinKulturHaus združuje viac ako 90 golských vinárov a podľa aktuálnych údajov má otvorené st–so 10:00–18:00, ne 10:00–13:00.</p>
+<div class="links"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Weinkulturhaus+Gols">Mapa</a></div>
+</div>
+
+<div class="card">
+<h2>🏨 Ubytovanie</h2>
+<p><b>14.–15. 8.</b><br>Hotel Genuss Am Hof<br>Erzherzog-Friedrich-Str. 40, Halbturn</p>
+<div class="links"><a class="btn light" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Hotel+Genuss+Am+Hof,+Halbturn">Mapa</a></div>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<p><b>15.–16. 8.</b><br>Lenaugasse 20, Frauenkirchen</p>
+<div class="links"><a class="btn light" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Lenaugasse+20,+7132+Frauenkirchen,+Austria">Mapa</a></div>
+</div>
+
+<div class="card" id="check">
+<h2>✅ Pred odchodom</h2>
+<label class="check"><input type="checkbox"> Doklady všetkých troch</label>
+<label class="check"><input type="checkbox"> Ubytovanie + check-in info</label>
+<label class="check"><input type="checkbox"> Plavky, uteráky, opaľovací krém</label>
+<label class="check"><input type="checkbox"> Veci pre PODOplay</label>
+<label class="check"><input type="checkbox"> Voda + občerstvenie do auta</label>
+<label class="check"><input type="checkbox"> Karta + trochu hotovosti</label>
+<label class="check"><input type="checkbox"> Overiť parkovanie pri Volksfeste</label>
+<label class="check"><input type="checkbox"> Ak chcete plavbu, overiť/rezervovať miesto</label>
+</div>
+</aside>
+</div>
+
+<div class="card" style="margin-top:0">
+<h2>✨ Trip control</h2>
+<div class="kpi">
+<div><b>3</b>ľudia</div>
+<div><b>3 dni</b>roadtrip</div>
+<div><b>2</b>ubytovania</div>
+<div><b>1</b>veľký festival</div>
+</div>
+<div class="good"><b>Luxury tip:</b> sobotný deň je zámerne poskladaný ako jeden plynulý príbeh – voda → zážitok → oddych → festival. Žiadne zbytočné predbiehanie.</div>
+</div>
+</main>
+
+<footer>
+Neusiedler Family Escape · 14.–16. 8. 2026<br>
+Časy a podujatia sú zostavené podľa aktuálne dostupných údajov; pred odchodom sa oplatí skontrolovať prípadné operatívne zmeny.
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map=L.map('leaflet').setView([47.88,16.91],11);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors'}).addTo(map);
+const places=[
+[47.875,16.966,'🏨 Halbturn · Hotel Genuss Am Hof'],
+[47.854,16.839,'🌊 Podersdorf · PODOplay / jazero'],
+[47.897,16.91,'🎡 Gols · 57. Golser Volksfest'],
+[47.842,16.926,'🏠 Frauenkirchen · Lenaugasse 20']
+];
+places.forEach(p=>L.marker([p[0],p[1]]).addTo(map).bindPopup(p[2]));
+L.polyline(places.map(p=>[p[0],p[1]]),{weight:4}).addTo(map);
+function tick(){
+ const target=new Date('2026-08-14T16:00:00+02:00'), now=new Date(), ms=target-now;
+ if(ms<=0){document.getElementById('count').textContent='🚗 Odchod je dnes — šťastnú cestu!';return}
+ const h=Math.floor(ms/36e5),m=Math.floor(ms%36e5/6e4);
+ document.getElementById('count').textContent='⏳ Do odchodu: '+h+' h '+m+' min';
+}
+tick();setInterval(tick,30000);
+</script>
+</body>
+</html>
