@@ -37,3 +37,27 @@ if(location.hash.startsWith("#source-"))$("sourceDetails").open=true;
 if("IntersectionObserver" in window){const obs=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting)document.querySelectorAll(".nav a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+entry.target.id));});},{rootMargin:"-15% 0px -65% 0px"});document.querySelectorAll("main>section[id]").forEach(s=>obs.observe(s));}
 })();
 (function(){const b=document.getElementById("shareTrip");b.addEventListener("click",async()=>{const url=location.href.split("#")[0];try{if(navigator.share){await navigator.share({title:document.title,url});return;}if(navigator.clipboard){await navigator.clipboard.writeText(url);b.textContent="Odkaz skopírovaný";return;}window.prompt("Skopíruj odkaz:",url);}catch(e){if(e.name!=="AbortError")window.prompt("Skopíruj odkaz:",url);}});})();
+
+/* Load the researched guide without changing the existing itinerary, budget or saved notes. */
+(function(){
+"use strict";
+const source=document.currentScript&&document.currentScript.src||document.baseURI;
+const guideURL=new URL("guide-2027.js?v=20261113-1",source).href;
+function loadGuide(){
+if(document.getElementById("rw-guide-loader")||window.RADSTADT_GUIDE_VERSION)return;
+const script=document.createElement("script");
+script.id="rw-guide-loader";
+script.src=guideURL;
+script.async=true;
+script.onerror=function(){
+const notice=document.createElement("p");
+notice.className="wrap source-note";
+notice.setAttribute("role","status");
+notice.textContent="Rozšírený sprievodca sa nenačítal. Skontroluj internetové pripojenie a obnov stránku.";
+const main=document.querySelector("main");
+if(main)main.prepend(notice);
+};
+document.body.appendChild(script);
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",loadGuide,{once:true});else loadGuide();
+})();
